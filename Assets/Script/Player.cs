@@ -6,7 +6,7 @@ DONE
 - Dash done
 - Courir done ----------------->(Sunny a un saut amplifié quand tu sautes en pentes ou en prenant de l'elant avec la course)
 - S'accroupir done ------------>(Il peut crouch et courir en même temps)
-- Climb done ------------------>(Faire en sorte que si tu lache la touche, Sunny tombe du Ladders, Debuger l'animation de saut sur le Ladders)
+- Climb done ------------------>
 
 DOING
 - Une zone ou tu es ralenti
@@ -106,8 +106,15 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && canJump)
         {
-            isJumping = true;
-            animController.SetBool("Jumping", true);
+            if (isClimbing)
+            {
+                isJumping = true;
+            }
+            else
+            {
+                isJumping = true;
+                animController.SetBool("Jumping", true);
+            }
         }
 
         HanddleRun();
@@ -176,7 +183,18 @@ public class Player : MonoBehaviour
             rb.gravityScale = 0f;
             rb.velocity = new Vector2();
             animController.SetBool("Climbing", true);
-        }
+            Debug.Log("Escalader");
+            /*if (isJumping)
+            {
+                animController.SetBool("Climbing", false);
+            }*/
+        }/*else
+        {
+            Debug.Log("Pas esclade");
+            //isClimbing = false;
+            //animController.SetBool("Climbing", false);
+        }*/
+        
         currentDash = dashLimit;
         grounded = true;
         canJump = true;
@@ -191,6 +209,8 @@ public class Player : MonoBehaviour
             rb.gravityScale = originalGravity;
             rb.velocity = new Vector2();
             animController.SetBool("Climbing", false);
+
+        
         }
     }
 
