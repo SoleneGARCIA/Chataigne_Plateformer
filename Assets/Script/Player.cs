@@ -19,6 +19,9 @@ TODO
 - MAYBE mettre une stamina uniquement sur le Climb
 - Collectibles
 - Se faire poursuivre par le chien, si il nous touche, on dead
+
+
+-Quand tu cours, rajouter une velocité de force moins forte pour pas qu'il y ai l'ajout de force sur les pentes
 */
 
 
@@ -167,9 +170,12 @@ public class Player : MonoBehaviour
         Vector2 horizontalVelocity  = new Vector2(horizontalValue * speedModifer * Time.fixedDeltaTime, rb.velocity.y);
         Vector2 verticalVelocity = new Vector2(rb.velocity.x, verticalValue * speedModifer * Time.fixedDeltaTime);
         Vector2 targetVelocity = new Vector2();
-        if (isClimbing){
+
+        if (isClimbing)
+        {
             targetVelocity += verticalVelocity;
         }
+
         targetVelocity += horizontalVelocity;
         rb.velocity = Vector2.SmoothDamp(rb.velocity, targetVelocity, ref ref_velocity, 0.05f);
     }
