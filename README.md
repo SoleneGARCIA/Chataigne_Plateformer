@@ -2,7 +2,7 @@ CTRL = Run -
 SHIFT = Dash -
 ALT = Crouch -
 SPACE = Jump -
-Tu climbs automatiquement sur une surface "Ladders"
+Tu climbs automatiquement sur une surface "Ladders".
 
 ![titre](Image/Chataigne_titre.png)
 ___
