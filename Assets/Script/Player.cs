@@ -3,23 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 /* 
 DONE
-- Dash done
-- Courir done ----------------->(Sunny a un saut amplifié quand tu sautes en pentes ou en prenant de l'elant avec la course)
-- S'accroupir done ------------>(Il peut crouch et courir en même temps)
-- Climb done ------------------>
-
-DOING
 - Une zone ou tu es ralenti
+- Dash done
+- Climb done ------------------>
 - Un objet immobile qui te ferait -1 de dégât si tu le touche (exemple, une barrière ) 
 - Un objet qui te ferait -1 de dégât si il te tombe dessus. (Ex: une caisse tombe du ciel quand le chat passe en des
-
-TODO
-- Une barre de vie constituer de 9 coeurs
 - Respawn & Checkpoint
-- MAYBE mettre une stamina uniquement sur le Climb
-- Collectibles
+- Une barre de vie constituer de 9 coeurs, ca fonctionne mais que en -2 au lieu de -1 vie
+
+DOING
+- Collectibles (ca donnerai un boost au chat pendant la course poursuite, maybe desactiver le dash pour pas pouvoir le spam)
 - Se faire poursuivre par le chien, si il nous touche, on dead
 
+TODO
+- MAYBE mettre une stamina uniquement sur le Climb
+
+BUG FIXES
+- S'accroupir done ------------>(Il peut crouch et courir en même temps)
+- Courir done ----------------->(Sunny a un saut amplifié quand tu sautes en pentes ou en prenant de l'elant avec la course)
+- CROUCH BUG : exemple : si je marche mais que je veux crouch l'animation a une latence mais la lenteur du crouch est la
 
 -Quand tu cours, rajouter une velocité de force moins forte pour pas qu'il y ai l'ajout de force sur les pentes
 */
@@ -42,9 +44,12 @@ public class Player : MonoBehaviour
 
     //SerializeField sert à afficher les paramètres dans le player
     //Le dash limit sert à mettre une Limite de Dash, je peux le changer directement dans le "Inspector" du player.
+    [SerializeField] public int health = 9;
     [SerializeField] private int dashLimit = 1;
     [SerializeField] private int currentDash;
     [SerializeField] private float jumpForce = 10f;
+    private Vector2 spawnPoint = new Vector2(-28,0); //TODO set first spawn point
+    private bool isSlowed = false;
     private bool canCrouch = false;
     private bool grounded = false;
     private bool canClimb = true;
@@ -78,6 +83,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        setSpawnPoint(rb.position);
         sr = GetComponent<SpriteRenderer>();
         animController = GetComponent<Animator>();
         currentDash = dashLimit;
@@ -106,6 +112,11 @@ public class Player : MonoBehaviour
         //animController.SetBool("Running", horizontalValue != 0);
         animController.SetFloat("speed", Mathf.Abs(horizontalValue));
         verticalValue = Input.GetAxis("Vertical");
+
+        if (Input.GetKeyDown(KeyCode.Return)){
+            respawn();
+        }
+
 
         if (Input.GetKeyDown(KeyCode.Space) && canJump)
         {
@@ -151,6 +162,8 @@ public class Player : MonoBehaviour
         // Si tu cours pas, est ce que tu climb ? Si tu climb pas, est-ce que 
         // tu crouch? Si tu cours pas, tu climb, tu crouch pas, c'est que tu marches
         float speedModifer;
+        
+        // Modificateurs de vitesse en fonction de l'action du joueur
         if (isRunning)
         {
             speedModifer = runningSpeed;
@@ -167,6 +180,13 @@ public class Player : MonoBehaviour
         {
             speedModifer = walkingSpeed;
         }
+        
+        // Modificateurs de vitesse en fonction du status du joueur
+
+        if (isSlowed){
+            speedModifer = speedModifer / 2.0f;
+        }
+
         Vector2 horizontalVelocity  = new Vector2(horizontalValue * speedModifer * Time.fixedDeltaTime, rb.velocity.y);
         Vector2 verticalVelocity = new Vector2(rb.velocity.x, verticalValue * speedModifer * Time.fixedDeltaTime);
         Vector2 targetVelocity = new Vector2();
@@ -182,28 +202,14 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Ladders"))
-        {
-            isClimbing = true;
-            grounded = false;
-            rb.gravityScale = 0f;
-            rb.velocity = new Vector2();
-            animController.SetBool("Climbing", true);
-            Debug.Log("Escalader");
-            /*if (isJumping)
-            {
-                animController.SetBool("Climbing", false);
-            }*/
-        }/*else
+
+        /*else
         {
             Debug.Log("Pas esclade");
             //isClimbing = false;
             //animController.SetBool("Climbing", false);
         }*/
         
-        currentDash = dashLimit;
-        grounded = true;
-        canJump = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -214,15 +220,33 @@ public class Player : MonoBehaviour
             grounded = true;
             rb.gravityScale = originalGravity;
             rb.velocity = new Vector2();
-            animController.SetBool("Climbing", false);
-
-        
+            animController.SetBool("Climbing", false);        
+        }
+        if(collision.gameObject.CompareTag("Slowdown")){
+            isSlowed = false;
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         animController.SetBool("Jumping", false);
+        
+        if(collision.gameObject.CompareTag("Ladders"))
+        {
+            isClimbing = true;
+            grounded = false;
+            rb.gravityScale = 0f;
+            rb.velocity = new Vector2();
+            animController.SetBool("Climbing", true);
+            Debug.Log("Escalader");
+        }
+        
+        if(collision.gameObject.CompareTag("Slowdown")){
+            isSlowed = true;
+        }
+        currentDash = dashLimit;
+        grounded = true;
+        canJump = true;
     }
 
 
@@ -234,7 +258,7 @@ public class Player : MonoBehaviour
     //                                                          //
     //////////////////////////////////////////////////////////////
 
-    void HanddleRun(){
+    private void HanddleRun(){
         if (Input.GetKeyDown(KeyCode.LeftControl) && canRun)
         {
             isRunning = true;
@@ -247,7 +271,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void HanddleCrouch(){
+    private void HanddleCrouch(){
         if (Input.GetKeyDown(KeyCode.LeftAlt))
         {
             isCrouching = true;
@@ -259,7 +283,6 @@ public class Player : MonoBehaviour
             animController.SetBool("Crouching", false);
         }
     }
-
 
     private IEnumerator Dash()
     {
@@ -273,12 +296,33 @@ public class Player : MonoBehaviour
         {
             rb.velocity += DashDirection;
         }
-
-
         //Je crois que "return" est utilisé pour relancer le code dès que Sunny a toucher le sol
         yield return new WaitForSeconds(dashingTime);
         isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
+
+    public void respawn(){
+        rb.transform.position = spawnPoint;
+    }
+
+
+    public void setSpawnPoint(Vector2 coord){
+        spawnPoint = coord;
+    }
+
+    public void heal(int value){
+        health += value;
+    }
+
+    public void hurt(int value){
+        health -= value;
+        if (health <= 0){
+            health = 9;
+            respawn();
+        }
+    }
+
+
 }
