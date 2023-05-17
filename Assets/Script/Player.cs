@@ -5,7 +5,7 @@ using UnityEngine;
 DONE
 - Une zone ou tu es ralenti
 - Dash done
-- Climb done ------------------>
+- Climb done
 - Un objet immobile qui te ferait -1 de dégât si tu le touche (exemple, une barrière ) 
 - Un objet qui te ferait -1 de dégât si il te tombe dessus. (Ex: une caisse tombe du ciel quand le chat passe en des
 - Respawn & Checkpoint
@@ -22,6 +22,8 @@ BUG FIXES
 - S'accroupir done ------------>(Il peut crouch et courir en même temps)
 - Courir done ----------------->(Sunny a un saut amplifié quand tu sautes en pentes ou en prenant de l'elant avec la course)
 - CROUCH BUG : exemple : si je marche mais que je veux crouch l'animation a une latence mais la lenteur du crouch est la
+- Je peux pas courir et dash a la fois
+- Je veux qu'on ai du mal a sauter dans le Mud, que les deplacements soit embourbés
 
 -Quand tu cours, rajouter une velocité de force moins forte pour pas qu'il y ai l'ajout de force sur les pentes
 */
