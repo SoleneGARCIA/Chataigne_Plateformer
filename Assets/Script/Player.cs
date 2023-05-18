@@ -309,6 +309,9 @@ public class Player : MonoBehaviour
         rb.transform.position = spawnPoint;
     }
 
+    public Vector2 getCurrentCoords(){
+        return rb.transform.position;
+    }
 
     public void setSpawnPoint(Vector2 coord){
         spawnPoint = coord;
