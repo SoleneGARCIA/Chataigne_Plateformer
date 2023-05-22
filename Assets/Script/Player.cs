@@ -16,16 +16,27 @@ DOING
 - Se faire poursuivre par le chien, si il nous touche, on dead
 
 TODO
-- MAYBE mettre une stamina uniquement sur le Climb
+- MAYBE mettre une stamina uniquement sur le Climb (MAYBE NOT)
+- Un objet qui te ferait -1 de dégât si il te tombe dessus. (Ex: une caisse tombe du ciel quand le chat passe en dessous)
 
 BUG FIXES
 - S'accroupir done ------------>(Il peut crouch et courir en même temps)
 - Courir done ----------------->(Sunny a un saut amplifié quand tu sautes en pentes ou en prenant de l'elant avec la course)
-- CROUCH BUG : exemple : si je marche mais que je veux crouch l'animation a une latence mais la lenteur du crouch est la
+- CROUCH BUG : exemple : si je marche mais que je veux crouch l'animation a une latence mais la lenteur du crouch est la (si j'appuie deux touches en mm temps)
 - Je peux pas courir et dash a la fois
 - Je veux qu'on ai du mal a sauter dans le Mud, que les deplacements soit embourbés
+-Que la barre de vie soit de -1 en -1
 
 -Quand tu cours, rajouter une velocité de force moins forte pour pas qu'il y ai l'ajout de force sur les pentes
+
+
+UPDATE
+-Je voudrais que pendant la course poursuite, le chat ne puisse pas retourner en arrière, la camera avancerai, soit il meurt parce que le chien l'a touché, soit parce qu'il est trop loin dans la map, il aurait des boosts pour gagner du terrain sur le chien
+-Lancer l'animation du chien
+-Du coup je sais pas si le dash va rester
+-Faire en sorte que la camera soit en haut du joueur
+-Pourquoi mes lights apparaisse derrière mes assets?
+-Faire defiler les nuages
 */
 
 
@@ -38,7 +49,6 @@ public class Player : MonoBehaviour
     private float originalGravity = 3f;
     private float walkingSpeed = 400f;
     private float runningSpeed = 800f;
-    //Lui mettre son animation, idem pour la course, le dash & le climb
     private float crouchingSpeed = 200f;
     private float climbingSpeed = 300f;
     private float horizontalValue;
