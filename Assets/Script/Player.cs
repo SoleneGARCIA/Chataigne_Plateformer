@@ -10,6 +10,7 @@ DONE
 - Un objet qui te ferait -1 de dégât si il te tombe dessus. (Ex: une caisse tombe du ciel quand le chat passe en des
 - Respawn & Checkpoint
 - Une barre de vie constituer de 9 coeurs, ca fonctionne mais que en -2 au lieu de -1 vie
+-Lancer l'animation du chien
 
 DOING
 - Collectibles (ca donnerai un boost au chat pendant la course poursuite, maybe desactiver le dash pour pas pouvoir le spam)
@@ -32,11 +33,11 @@ BUG FIXES
 
 UPDATE
 -Je voudrais que pendant la course poursuite, le chat ne puisse pas retourner en arrière, la camera avancerai, soit il meurt parce que le chien l'a touché, soit parce qu'il est trop loin dans la map, il aurait des boosts pour gagner du terrain sur le chien
--Lancer l'animation du chien
--Du coup je sais pas si le dash va rester
+
+-Supprimer le dash
 -Faire en sorte que la camera soit en haut du joueur
 -Pourquoi mes lights apparaisse derrière mes assets?
--Faire defiler les nuages
+-Faire defiler les nuages, paralaxe
 */
 
 
