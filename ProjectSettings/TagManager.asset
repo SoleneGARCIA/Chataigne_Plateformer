@@ -9,6 +9,7 @@ TagManager:
   - HURT
   - Joueur
   - Checkpoint
+  - TriggerDog
   layers:
   - Default
   - TransparentFX

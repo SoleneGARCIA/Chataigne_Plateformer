@@ -1,43 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 /* 
 DONE
-- Une zone ou tu es ralenti
-- Dash done
-- Climb done
-- Un objet immobile qui te ferait -1 de dégât si tu le touche (exemple, une barrière ) 
-- Un objet qui te ferait -1 de dégât si il te tombe dessus. (Ex: une caisse tombe du ciel quand le chat passe en des
-- Respawn & Checkpoint
-- Une barre de vie constituer de 9 coeurs, ca fonctionne mais que en -2 au lieu de -1 vie
--Lancer l'animation du chien
+- 
 
 DOING
 - Collectibles (ca donnerai un boost au chat pendant la course poursuite, maybe desactiver le dash pour pas pouvoir le spam)
-- Se faire poursuivre par le chien, si il nous touche, on dead
-
-TODO
-- MAYBE mettre une stamina uniquement sur le Climb (MAYBE NOT)
-- Un objet qui te ferait -1 de dégât si il te tombe dessus. (Ex: une caisse tombe du ciel quand le chat passe en dessous)
+-Faire defiler les nuages, paralaxe
 
 BUG FIXES
-- S'accroupir done ------------>(Il peut crouch et courir en même temps)
-- Courir done ----------------->(Sunny a un saut amplifié quand tu sautes en pentes ou en prenant de l'elant avec la course)
+- S'accroupir done ------------> (Il peut crouch et courir en même temps) (PEUT-ÊTRE LE GARDER)
+- Courir done ----------------->(Sunny a un saut amplifié quand tu sautes en pentes ou en prenant de l'elant avec la course)rajouter une velocité 
+de force moins forte pour pas qu'il y ai l'ajout de force sur les pentes
 - CROUCH BUG : exemple : si je marche mais que je veux crouch l'animation a une latence mais la lenteur du crouch est la (si j'appuie deux touches en mm temps)
-- Je peux pas courir et dash a la fois
 - Je veux qu'on ai du mal a sauter dans le Mud, que les deplacements soit embourbés
--Que la barre de vie soit de -1 en -1
+- Que la barre de vie soit de -1 en -1 et non pas de -2 en -2
 
--Quand tu cours, rajouter une velocité de force moins forte pour pas qu'il y ai l'ajout de force sur les pentes
-
+- Supprimer l'accélération sur le box collider des ladders
+    faut separer les deux modificateur de vitesse dans le calcul de velocity, un pour le vertical, l'autre pour l'horizontal exemple : courrir = horizontal speed boost
+    ca permet de mieux controller le climb
 
 UPDATE
--Je voudrais que pendant la course poursuite, le chat ne puisse pas retourner en arrière, la camera avancerai, soit il meurt parce que le chien l'a touché, soit parce qu'il est trop loin dans la map, il aurait des boosts pour gagner du terrain sur le chien
+-Je voudrais que pendant la course poursuite, le chat ne puisse pas retourner en arrière, la camera avancerai, soit il meurt parce que le chien l'a touché, soit parce 
+qu'il est trop loin dans la map, il aurait des boosts pour gagner du terrain sur le chien
 
--Supprimer le dash
--Faire en sorte que la camera soit en haut du joueur
--Pourquoi mes lights apparaisse derrière mes assets?
--Faire defiler les nuages, paralaxe
 */
 
 
@@ -51,7 +39,7 @@ public class Player : MonoBehaviour
     private float walkingSpeed = 400f;
     private float runningSpeed = 800f;
     private float crouchingSpeed = 200f;
-    private float climbingSpeed = 300f;
+    private float climbingSpeed = 100f;
     private float horizontalValue;
     private float verticalValue;
 
@@ -126,11 +114,6 @@ public class Player : MonoBehaviour
         animController.SetFloat("speed", Mathf.Abs(horizontalValue));
         verticalValue = Input.GetAxis("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.Return)){
-            respawn();
-        }
-
-
         if (Input.GetKeyDown(KeyCode.Space) && canJump)
         {
             if (isClimbing)
@@ -151,10 +134,10 @@ public class Player : MonoBehaviour
         animController.SetFloat("speed", Mathf.Abs(horizontalValue));
 
         //Rémi a dit qu'il était pas fan du Coroutine, donc si vous arrivez à modifier c'est tant mieux
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && currentDash > 0)
+        /* if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && currentDash > 0)
         {
             StartCoroutine(Dash());
-        }
+        } */
     }
     
     void FixedUpdate()
@@ -169,6 +152,8 @@ public class Player : MonoBehaviour
             grounded = false;
             isJumping = false;
             rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            //rb.velocity += new Vector2(0,jumpForce);
+            //rb.velocity = rb.velocity.normalized;
             canJump = false;
         }
 

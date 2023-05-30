@@ -25,5 +25,4 @@ public class Life : MonoBehaviour
             image.enabled = false;
         }
     }
-
 }

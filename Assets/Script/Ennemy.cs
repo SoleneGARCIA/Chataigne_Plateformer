@@ -7,7 +7,7 @@ public class Ennemy : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private Animator animController;
-    [SerializeField] private bool isAggro;
+    [SerializeField] private bool isAggro = false;
     [SerializeField] private float aggroDistance = 30f;
     [SerializeField] private float speed = 20f;
 
@@ -25,13 +25,14 @@ public class Ennemy : MonoBehaviour
         Vector2 currentPosition = rb.transform.position;
         Vector2 direction = playerPosition - currentPosition;
         direction = direction.normalized;
-        if (Vector2.Distance(playerPosition,currentPosition) <= aggroDistance){
-            isAggro = true;
-        }
         if (isAggro){
             direction *= speed;
             rb.velocity += new Vector2(direction.x, 0);
         }
+    }
+
+    public void setAggro(){
+        isAggro = true;
     }
 
 }
