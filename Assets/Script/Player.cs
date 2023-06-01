@@ -121,6 +121,15 @@ public class Player : MonoBehaviour
         }
         //Gère l'orientation du sprite en horizontal
         horizontalValue = Input.GetAxis("Horizontal");
+
+        if (horizontalValue != 0)
+        {
+            GetComponent<Animator>().SetBool("Walk", true);
+        } else
+        {
+            GetComponent<Animator>().SetBool("Walk", false);
+        }
+
         if (horizontalValue < 0) sr.flipX = true;
         else if (horizontalValue > 0) sr.flipX = false;
         //animController.SetBool("Running", horizontalValue != 0);
@@ -155,6 +164,14 @@ public class Player : MonoBehaviour
     
     void FixedUpdate()
     {
+        /*
+        if(isJumping == false)
+        {
+            .SetBool("Jumping",false);
+        }
+        */
+
+
 
         if (isDashing)
         {
@@ -281,12 +298,13 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftControl) && canRun)
         {
             isRunning = true;
-            animController.SetBool("Running", true);
+            animController.SetBool("Run", true);
+
         }
         if (Input.GetKeyUp(KeyCode.LeftControl) && canRun)
         {
             isRunning = false;
-            animController.SetBool("Running", false);
+            animController.SetBool("Run", false);
         }
     }
 

@@ -20,9 +20,25 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: e2976d09b53264ffbbb9210a1ae1dcc0, type: 3}
+      value: {fileID: 21300000, guid: 06fe0ea6b7841544c8780434214d7f06, type: 3}
     - time: 0.5
-      value: {fileID: 21300000, guid: 598fb1767626f42e992bb9c2769d86ea, type: 3}
+      value: {fileID: 21300000, guid: eb3eb00a36cca494a9fae1467148161f, type: 3}
+    - time: 1
+      value: {fileID: 21300000, guid: 2a5a06649897f0b44a51e195d476d7fe, type: 3}
+    - time: 1.5
+      value: {fileID: 21300000, guid: 02f589f8a0344c2469991ba580d041e0, type: 3}
+    - time: 2
+      value: {fileID: 21300000, guid: d6ea7f8800b602d40ae319f0201f0e2e, type: 3}
+    - time: 2.5
+      value: {fileID: 21300000, guid: 084c0bc4b3329f8429d0564912db613c, type: 3}
+    - time: 3
+      value: {fileID: 21300000, guid: 9c5ff2eed778f914bb6fbdf7773dcb2d, type: 3}
+    - time: 3.5
+      value: {fileID: 21300000, guid: 90d01b0f721cf3946b560284dcdea256, type: 3}
+    - time: 4
+      value: {fileID: 21300000, guid: ac692ea859546be429c6cc4d7e322e4d, type: 3}
+    - time: 4.5
+      value: {fileID: 21300000, guid: 939ff6bd97011c9419c25c83c1fd2cb5, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -42,19 +58,27 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: e2976d09b53264ffbbb9210a1ae1dcc0, type: 3}
-    - {fileID: 21300000, guid: 598fb1767626f42e992bb9c2769d86ea, type: 3}
+    - {fileID: 21300000, guid: 06fe0ea6b7841544c8780434214d7f06, type: 3}
+    - {fileID: 21300000, guid: eb3eb00a36cca494a9fae1467148161f, type: 3}
+    - {fileID: 21300000, guid: 2a5a06649897f0b44a51e195d476d7fe, type: 3}
+    - {fileID: 21300000, guid: 02f589f8a0344c2469991ba580d041e0, type: 3}
+    - {fileID: 21300000, guid: d6ea7f8800b602d40ae319f0201f0e2e, type: 3}
+    - {fileID: 21300000, guid: 084c0bc4b3329f8429d0564912db613c, type: 3}
+    - {fileID: 21300000, guid: 9c5ff2eed778f914bb6fbdf7773dcb2d, type: 3}
+    - {fileID: 21300000, guid: 90d01b0f721cf3946b560284dcdea256, type: 3}
+    - {fileID: 21300000, guid: ac692ea859546be429c6cc4d7e322e4d, type: 3}
+    - {fileID: 21300000, guid: 939ff6bd97011c9419c25c83c1fd2cb5, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1
+    m_StopTime: 5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 1
+    m_LoopTime: 0
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
