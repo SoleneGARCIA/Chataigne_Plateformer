@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
     private float walkingSpeed = 400f;
     private float runningSpeed = 800f;
     private float crouchingSpeed = 200f;
-    private float climbingSpeed = 100f;
+    private float climbingSpeed = 1200f;
     private float horizontalValue;
     private float verticalValue;
 
@@ -122,12 +122,11 @@ public class Player : MonoBehaviour
         //Gère l'orientation du sprite en horizontal
         horizontalValue = Input.GetAxis("Horizontal");
 
-        if (horizontalValue != 0)
-        {
-            GetComponent<Animator>().SetBool("Walk", true);
-        } else
-        {
-            GetComponent<Animator>().SetBool("Walk", false);
+        if (horizontalValue != 0){
+            animController.SetBool("Walk", true);
+        } 
+        else {
+            animController.SetBool("Walk", false);
         }
 
         if (horizontalValue < 0) sr.flipX = true;
@@ -138,6 +137,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && canJump)
         {
+            //TODO EXPLAIN
             if (isClimbing)
             {
                 isJumping = true;
@@ -170,7 +170,6 @@ public class Player : MonoBehaviour
             .SetBool("Jumping",false);
         }
         */
-
 
 
         if (isDashing)
@@ -225,23 +224,11 @@ public class Player : MonoBehaviour
 
         if (isClimbing)
         {
-            targetVelocity += verticalVelocity;
+            targetVelocity.y = verticalVelocity.y;
         }
 
         targetVelocity += horizontalVelocity;
         rb.velocity = Vector2.SmoothDamp(rb.velocity, targetVelocity, ref ref_velocity, 0.05f);
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-
-        /*else
-        {
-            Debug.Log("Pas esclade");
-            //isClimbing = false;
-            //animController.SetBool("Climbing", false);
-        }*/
-        
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -259,18 +246,30 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ladders"))
+        {
+            rb.velocity = new Vector2(0,0); 
+            rb.gravityScale = 0f;       
+        }
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         animController.SetBool("Jumping", false);
         
         if(collision.gameObject.CompareTag("Ladders"))
         {
-            isClimbing = true;
-            grounded = false;
-            rb.gravityScale = 0f;
-            rb.velocity = new Vector2();
-            animController.SetBool("Climbing", true);
-            Debug.Log("Escalader");
+            if (!isClimbing){ 
+                isClimbing = true;
+                grounded = false;
+                //rb.gravityScale = 0f;
+                rb.velocity = new Vector2();
+                animController.SetBool("Climbing", true);
+                Debug.Log("Escalader");
+            }
         }
         
         if(collision.gameObject.CompareTag("Slowdown")){

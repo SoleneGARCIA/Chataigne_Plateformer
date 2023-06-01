@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TriggerDog : MonoBehaviour
+public class UntriggerDog : MonoBehaviour
 {
     private bool isTriggered = false;
     
@@ -15,7 +15,7 @@ public class TriggerDog : MonoBehaviour
                 isTriggered = true;
                 GameObject hades = GameObject.Find("HADES");
                 Ennemy e = hades.GetComponent<Ennemy>();
-                e.setAggro(true);
+                e.setAggro(false);
                 GameObject follow = GameObject.Find("Camera Run");
                 CameraRun cr = follow.GetComponent<CameraRun>();
                 cr.toggleFollowPlayer();

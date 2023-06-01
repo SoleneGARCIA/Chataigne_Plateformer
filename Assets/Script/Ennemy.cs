@@ -31,8 +31,8 @@ public class Ennemy : MonoBehaviour
         }
     }
 
-    public void setAggro(){
-        isAggro = true;
+    public void setAggro(bool value){
+        isAggro = value;
     }
 
     public void reset(){
