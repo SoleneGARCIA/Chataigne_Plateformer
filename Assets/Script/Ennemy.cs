@@ -27,12 +27,17 @@ public class Ennemy : MonoBehaviour
         direction = direction.normalized;
         if (isAggro){
             direction *= speed;
-            rb.velocity += new Vector2(direction.x, 0);
+            rb.velocity = new Vector2(direction.x, 0);
         }
     }
 
     public void setAggro(){
         isAggro = true;
+    }
+
+    public void reset(){
+        isAggro = false;
+        gameObject.transform.position = new Vector2(290, 6);
     }
 
 }

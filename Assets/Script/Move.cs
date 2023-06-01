@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Cloud : MonoBehaviour
+public class Move : MonoBehaviour
 {
     [SerializeField] private float speed = 1f;
     Rigidbody2D rb;
@@ -13,6 +13,6 @@ public class Cloud : MonoBehaviour
     }
 
     void FixedUpdate(){
-        rb.velocity += new Vector2(speed,0);
+        rb.velocity = new Vector2(speed,0);
     }
 }

@@ -5,13 +5,29 @@ using UnityEngine.UI;
 
 public class TriggerDog : MonoBehaviour
 {
+    private bool isTriggered = false;
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag("Joueur"))
         {
-            GameObject hades = GameObject.Find("HADES");
-            Ennemy e = hades.GetComponent<Ennemy>();
-            e.setAggro();
+            if (!isTriggered){
+                isTriggered = true;
+                GameObject hades = GameObject.Find("HADES");
+                Ennemy e = hades.GetComponent<Ennemy>();
+                e.setAggro();
+                GameObject follow = GameObject.Find("Camera Run");
+                CameraRun cr = follow.GetComponent<CameraRun>();
+                cr.toggleFollowPlayer();
+            }
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision){
+        if(collision.gameObject.CompareTag("Joueur"))
+        {
+            if (isTriggered){
+                isTriggered = false;
+            }
         }
     }
 }

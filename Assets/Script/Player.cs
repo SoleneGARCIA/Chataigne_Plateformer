@@ -4,27 +4,36 @@ using UnityEngine;
 
 /* 
 DONE
-- 
-
-DOING
 - Collectibles (ca donnerai un boost au chat pendant la course poursuite, maybe desactiver le dash pour pas pouvoir le spam)
 -Faire defiler les nuages, paralaxe
-
-BUG FIXES
 - S'accroupir done ------------> (Il peut crouch et courir en même temps) (PEUT-ÊTRE LE GARDER)
 - Courir done ----------------->(Sunny a un saut amplifié quand tu sautes en pentes ou en prenant de l'elant avec la course)rajouter une velocité 
 de force moins forte pour pas qu'il y ai l'ajout de force sur les pentes
 - CROUCH BUG : exemple : si je marche mais que je veux crouch l'animation a une latence mais la lenteur du crouch est la (si j'appuie deux touches en mm temps)
+- Que la barre de vie soit de -1 en -1 et non pas de -2 en -2 
+-Je voudrais que pendant la course poursuite, le chat ne puisse pas retourner en arrière, la camera avancerai, soit il meurt parce que le chien l'a touché, soit parce 
+qu'il est trop loin dans la map, il aurait des boosts pour gagner du terrain sur le chien 
+
+DOING
+
+Diminuer le player quand il crouch
+Mettre une fin a la course poursuite
+Faire mes UI start, crédit
+Mettre le crouch sur la fleche du bas et le jump sur la fleche du haut
+importer mes anims
+
+
+BUG FIXES
+
 - Je veux qu'on ai du mal a sauter dans le Mud, que les deplacements soit embourbés
-- Que la barre de vie soit de -1 en -1 et non pas de -2 en -2
+
 
 - Supprimer l'accélération sur le box collider des ladders
     faut separer les deux modificateur de vitesse dans le calcul de velocity, un pour le vertical, l'autre pour l'horizontal exemple : courrir = horizontal speed boost
     ca permet de mieux controller le climb
 
 UPDATE
--Je voudrais que pendant la course poursuite, le chat ne puisse pas retourner en arrière, la camera avancerai, soit il meurt parce que le chien l'a touché, soit parce 
-qu'il est trop loin dans la map, il aurait des boosts pour gagner du terrain sur le chien
+
 
 */
 
@@ -43,11 +52,15 @@ public class Player : MonoBehaviour
     private float horizontalValue;
     private float verticalValue;
 
+    [SerializeField] float bonusSpeed = 1.2f;    
+    [SerializeField]public float boostDuration = 5f;
+    [SerializeField]private bool isBoostActive = false;
+
     //SerializeField sert à afficher les paramètres dans le player
     //Le dash limit sert à mettre une Limite de Dash, je peux le changer directement dans le "Inspector" du player.
     [SerializeField] public int health = 9;
-    [SerializeField] private int dashLimit = 1;
-    [SerializeField] private int currentDash;
+    private int dashLimit = 1;
+    private int currentDash;
     [SerializeField] private float jumpForce = 10f;
     private Vector2 spawnPoint = new Vector2(-28,0); //TODO set first spawn point
     private bool isSlowed = false;
@@ -65,11 +78,11 @@ public class Player : MonoBehaviour
     //C'est la force du dash en vertical et horizontal. Sunny se tourne automatiquement vers la droite, à modifier. 
     //Sunny dash vers le haut uniquement si Sunny touche le sol (appuie sur shift flèche du haut)
     //Si Sunny dash vers le haut en sauter, ca arrête sa force et il tombe
-    [SerializeField] private float horizontalDashingPower = 24f;
-    [SerializeField] private float verticalDashingPower = 14f;
-    [SerializeField] private float dashingTime = 0.001f;
+    private float horizontalDashingPower = 24f;
+    private float verticalDashingPower = 14f;
+    private float dashingTime = 0.001f;
     //Le chiffre inscrit correspond au temps avant que Sunny puisse re-sauter. 
-    [SerializeField] private float dashingCooldown = 1f;
+    private float dashingCooldown = 1f;
 
     //////////////////////////////////////////////////////////////
     //                                                          //
@@ -185,6 +198,10 @@ public class Player : MonoBehaviour
             speedModifer = speedModifer / 2.0f;
         }
 
+        if (isBoostActive){
+            speedModifer = speedModifer * bonusSpeed;
+        }
+
         Vector2 horizontalVelocity  = new Vector2(horizontalValue * speedModifer * Time.fixedDeltaTime, rb.velocity.y);
         Vector2 verticalVelocity = new Vector2(rb.velocity.x, verticalValue * speedModifer * Time.fixedDeltaTime);
         Vector2 targetVelocity = new Vector2();
@@ -241,6 +258,10 @@ public class Player : MonoBehaviour
         
         if(collision.gameObject.CompareTag("Slowdown")){
             isSlowed = true;
+        }
+        if(collision.gameObject.CompareTag("Collectible")){
+            collision.gameObject.SetActive(false);
+            ActivateBoost();
         }
         currentDash = dashLimit;
         grounded = true;
@@ -323,6 +344,27 @@ public class Player : MonoBehaviour
             health = 9;
             respawn();
         }
+    }
+
+    public void ActivateBoost()
+    {
+        if (!isBoostActive)
+        {
+            isBoostActive = true;
+            Debug.Log("Boost activé pendant " + boostDuration + " secondes.");
+            StartCoroutine(BoostCoroutine());
+        }
+        else
+        {
+            Debug.Log("Le boost est déjà actif.");
+        }
+    }
+
+    private IEnumerator BoostCoroutine()
+    {
+        yield return new WaitForSeconds(boostDuration);
+        isBoostActive = false;
+        Debug.Log("Boost terminé.");
     }
 
 

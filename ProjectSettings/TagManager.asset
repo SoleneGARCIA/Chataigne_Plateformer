@@ -10,6 +10,7 @@ TagManager:
   - Joueur
   - Checkpoint
   - TriggerDog
+  - Collectible
   layers:
   - Default
   - TransparentFX
