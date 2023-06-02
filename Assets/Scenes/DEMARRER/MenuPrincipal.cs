@@ -3,26 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TransFin : MonoBehaviour
+public class MenuPrincipal : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
 
+    public void PlayGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-
+    public void QuitGame()
     {
-        if (collision.gameObject.CompareTag("Joueur"))
-        {
-            SceneManager.LoadScene("FIN");
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        Debug.Log("Quit");
+        Application.Quit();
     }
 }
