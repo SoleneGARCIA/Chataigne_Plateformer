@@ -22,18 +22,20 @@ public class CameraRun : MonoBehaviour
     }
 
     void Update(){
-        if (player.transform.position.x < camera.transform.position.x - 10 - cam.orthographicSize/2 ||
-            player.transform.position.x > camera.transform.position.x + 10 + cam.orthographicSize/2){
+        if (player.transform.position.x < camera.transform.position.x - cam.orthographicSize*2 ||
+            player.transform.position.x > camera.transform.position.x + cam.orthographicSize*2){
             p.hurt(999);
             if(!followPlayer){
-                toggleFollowPlayer();
-            }
+                toggleFollowPlayer(true);
+            } 
             GameObject.Find("HADES").GetComponent<Ennemy>().reset();
         }
     }
 
-    public void toggleFollowPlayer(){
-        followPlayer = !followPlayer;
+
+
+    public void toggleFollowPlayer(bool value){
+        followPlayer = value;
         if(followPlayer){
             cvc.Follow = player.transform;
             cvc.LookAt = player.transform;

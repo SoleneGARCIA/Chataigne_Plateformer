@@ -92,17 +92,18 @@ public class Player : MonoBehaviour
     //                                                          //
     //////////////////////////////////////////////////////////////
 
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        Screen.SetResolution( 1920, 1080, true);
         rb = GetComponent<Rigidbody2D>();
         setSpawnPoint(rb.position);
         sr = GetComponent<SpriteRenderer>();
         animController = GetComponent<Animator>();
         currentDash = dashLimit;
     }
-
 
     //////////////////////////////////////////////////////////////
     //                                                          //

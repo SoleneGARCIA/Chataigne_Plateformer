@@ -29,6 +29,9 @@ public class Ennemy : MonoBehaviour
             direction *= speed;
             rb.velocity = new Vector2(direction.x, 0);
         }
+        else{
+            rb.velocity = new Vector2(0, 0);
+        }
     }
 
     public void setAggro(bool value){

@@ -18,7 +18,7 @@ public class UntriggerDog : MonoBehaviour
                 e.setAggro(false);
                 GameObject follow = GameObject.Find("Camera Run");
                 CameraRun cr = follow.GetComponent<CameraRun>();
-                cr.toggleFollowPlayer();
+                cr.toggleFollowPlayer(true);
             }
         }
     }
